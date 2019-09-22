@@ -20,10 +20,12 @@ bool one_edit(std::string &word1, std::string word2)
         std::deque<char> myDeque1, myDeque2;
         for (int i = 0; i < word1_size; ++i)
         {
+            word1[i] = std::tolower(word1[i]);
             myDeque1.push_back(word1[i]);
         }
         for (int i = 0; i < word2_size; ++i)
         {
+            word2[i] = std::tolower(word2[i]);
             myDeque2.push_back(word2[i]);
         }
         while(!myDeque1.empty() && !myDeque2.empty())
@@ -55,8 +57,8 @@ bool one_edit(std::string &word1, std::string word2)
 
 int main()
 {
-    std::string word1 = "Jacksoi";
-    std::string word2 = "Jackson";
+    std::string word1 = "j9ck&oi";
+    std::string word2 = "J9ck&on";
     bool edit_one = one_edit(word1, word2);
     if (edit_one)
     {
