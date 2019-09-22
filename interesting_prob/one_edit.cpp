@@ -7,11 +7,13 @@ bool one_edit(std::string &word1, std::string word2)
 {
     int word1_size = word1.size();
     int word2_size = word2.size();
+    // The if-statement appears redundant, as the else-statement solves the same issue as the if statement
+    // However, the if statement helps to reduce the run time in cases where there is no need to create deques
+    // thus, reducing the best case time-complexity to O(1) instead of O(n)
     if (std::abs(word1_size - word2_size) > 1)
     {
         return false;
     }
-    // else if (std::abs(word1_size - word2_size) == 1)
     else
     {
         bool check = true;
@@ -27,7 +29,7 @@ bool one_edit(std::string &word1, std::string word2)
         while(!myDeque1.empty() && !myDeque2.empty())
         {
             if (myDeque1.front() == myDeque2.front())
-            {
+            {                                  
                 myDeque1.pop_front();
                 myDeque2.pop_front();
             }
@@ -36,39 +38,25 @@ bool one_edit(std::string &word1, std::string word2)
                 myDeque1.pop_back();
                 myDeque2.pop_back();
             }
-            else if (myDeque1.size() > 1 || myDeque2.empty() > 1)
+            else
             {
-                check = false;
+                // exit the loop if both front and back of both words do not match
                 break;
             }
-            
+        }
+        // checks if there are still numbers not matched, after doing the matching checks in the while loop above.
+        if (myDeque1.size() > 1 || myDeque2.size() > 1)
+        {
+            check = false;
         }
         return check;
     }
-    // else
-    // {
-    //     int count = 0;
-    //     for (int i = 0; i < word1_size; ++i)
-    //     {
-    //         if (word1[i] != word2[i])
-    //         {
-    //             count++;
-    //         }
-    //         if (count > 1)
-    //         {
-    //             return false;
-    //         }
-    //     }
-    //     return true;
-    // }
-    
-    return true;
 }
 
 int main()
 {
-    std::string word1 = "Jackson";
-    std::string word2 = "Jack";
+    std::string word1 = "Jacksoi";
+    std::string word2 = "Jackson";
     bool edit_one = one_edit(word1, word2);
     if (edit_one)
     {
