@@ -6,53 +6,79 @@ std::vector<std::vector<int> > spiral(int n);
 std::vector<std::vector<int> > spiral(int n)
 {
     std::vector<std::vector<int> > matrix(n, std::vector<int> (n, 0)); // initialize an n x n matrix
-    int count = 1, row = 0, col = 0, row_max = n, col_max = n;
-    while (count < n * n)
+    int count = 1, row = 0, row_max = n, col = 0, col_max = n;
+    int action = 1; //right = 1, down = 2, left = 3, up = 4
+    while (1)
     {
-        
-        if(col < col_max)
+        if (count > n*n)
         {
-            // fix row, move through columns
-            matrix[row][col] = count; 
-            col++;
+            break;
+        }
+        // move across a single row from left to right
+        for(int j = col; j < col_max; j++)
+        {
+            if (matrix[row][j] != 0)
+            {
+                break;
+            }
+            matrix[row][j] = count;
             count++;
+            col = j;
         }
-        else if (row < row_max)
+        col_max--;
+
+        if (count > n*n)
         {
-            // fix column, move through rows
-            matrix[row][col - 1] = count;
-            row++;
+            break;
+        }
+        // move across a single column from top to bottom
+        for(int i = row + 1; i < row_max; i++)
+        {
+            if (matrix[i][col] != 0)
+            {
+                break;
+            }
+            matrix[i][col] = count;
             count++;
+            row = i;
         }
-        else
+        row_max--;
+
+        if (count > n*n)
         {
-            row_max--;
-            col_max--;
+            break;
         }
-        
+        // move across a single row from right to left
+        for(int j = col - 1; j >= 0; j--)
+        {
+            if (matrix[row][j] != 0)
+            {
+                break;
+            }
+            matrix[row][j] = count;
+            count++;
+            col = j;
+        }
+        col_max--;
+
+        if (count > n*n)
+        {
+            break;
+        }
+        // move across a single column from bottom to top
+        for (int i = row - 1; i >=0; i--)
+        {
+            if (matrix[i][col] != 0)
+            {
+                break;
+            }
+            matrix[i][col] = count;
+            count++;
+            row = i;
+        }
+
     }
-
-    /*
-        01 02 03 04
-        12 13 14 05
-        11 16 15 06
-        10 09 08 07
-
-        01 0   0  0
-        02 0   0  0
-        03 0   0  0
-        04 05 06 07
-    */
-    // for (int row = 0; row < row_max; ++row)
-    // {
-    //     for (int col = 0; col < col_max; ++col)
-    //     {
-    //         matrix[row][col] = count;
-    //         count++;
-    //     }
-    // }
     
-   
     return matrix;
 }
 
