@@ -7,7 +7,6 @@ std::vector<std::vector<int> > spiral(int n)
 {
     std::vector<std::vector<int> > matrix(n, std::vector<int> (n, 0)); // initialize an n x n matrix
     int count = 1, row = 0, row_max = n, col = 0, col_max = n, while_count = 0;
-    int next_action = 0; //right = 1, down = 2, left = 3, up = 4
     matrix[0][0] = 1;
     while (count < n*n)
     {
@@ -23,7 +22,6 @@ std::vector<std::vector<int> > spiral(int n)
             col = j;
         }
         col_max--;
-        next_action = 0;
 
         // move across a single column from top to bottom
         for(int i = row + 1; i < row_max; i++)
@@ -37,7 +35,6 @@ std::vector<std::vector<int> > spiral(int n)
             row = i;
         }
         row_max--;
-        next_action = 0;
 
         // move across a single row from right to left
         for(int j = col - 1; j >= 0; j--)
@@ -50,7 +47,6 @@ std::vector<std::vector<int> > spiral(int n)
             matrix[row][j] = count;
             col = j;
         }
-        next_action = 0;
 
         // move across a single column from bottom to top
         for (int i = row - 1; i >=0; i--)
