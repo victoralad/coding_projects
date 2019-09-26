@@ -1,33 +1,72 @@
 #include <iostream>
 #include <vector>
+#include <queue>
 
 void lookNsay(int height);
 
 void lookNsay(int height)  // use a queue intead of vectors
 {
-    std::vector<int> vec(1, 1);
-    for (int i = 1; i < height; ++i)
+    if (height == 1)
     {
-        int count = 0;
-        for (int j = 1; j < vec.size(); ++j)
+        std::cout << "1" << std::endl;
+    }
+    else if (height == 2)
+    {
+        std::cout << "1 1" << std::endl;
+    }
+    else
+    {
+        std::cout << "1" << std::endl;
+        std::cout << "1 1" << std::endl;
+        int old_size;
+        std::queue<int> que;
+        que.push(1);
+        que.push(1);
+        int temp;
+        for (int i = 2; i < height; ++i)
         {
-            if(vec[j - 1] == vec[j])
+            int count = 1;
+            old_size = que.size();
+            for (int j = 1; j < old_size; ++j)
             {
-                count++;
+                temp = que.front();
+                que.pop();
+
+                if (temp == que.front())
+                {
+                    count++;
+                    // temp = que.front();
+                    // que.pop();
+                }
+                else
+                {
+                    que.push(count);
+                    que.push(temp);
+                    //count = 1;
+                }
             }
-            else
-            {
-                vec.push
-                count = 0;
-            }
+            // int back = que.back();
+            temp = que.front();   
+            que.push(count);
+            que.push(temp);
+            que.pop();
             
+            for (int j = 0; j < que.size(); ++j)
+            {
+                temp = que.front();
+                std::cout << que.front() << " ";
+                que.pop();
+                que.push(que.front());
+            }
+            std::cout << std::endl;
         }
     }
+
 }
 
 int main()
 {
-    lookNsay(10);
+    lookNsay(5);
     return 0;
 }
 
