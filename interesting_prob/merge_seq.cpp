@@ -4,7 +4,7 @@
 
 std::vector<int> merge_seq(std::vector<int> &seq1, std::vector<int> &seq2);
 
-// The runtime of this algorithm is O(max(M, N)), where M and N are the lengths of the arrays. 
+// The runtime of this algorithm is O(M + N)
 std::vector<int> merge_seq(std::vector<int> &seq1, std::vector<int> &seq2)
 {
     int idx1 = 0, idx2 = 0, index = 0;
