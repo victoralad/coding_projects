@@ -17,9 +17,9 @@ class Matrix
 public:
     Matrix();                           // constructor
     Matrix(const Matrix &matrixObj);    // copy constructor
-    Matrix(int nRowsIn, int nColsIn);   // constructor with arguments
+    Matrix(std::vector<std::vector<double> > &matrixIn);    // constructor with arguments
     ~Matrix();                          // destructor
-    Matrix& transposeMatrix(Matrix &matrixObj);             // transpose matrix
+    Matrix& transpose(std::vector<std::vector<double> > &matrixIn);             // transpose matrix
     Matrix& operator=(const Matrix &matrixObj); // assign matrix to another matrix
     friend Matrix operator*(const Matrix &matrixObj1, const Matrix &matrixObj2);              // multiply two matrices together
     friend std::ostream& operator<<(std::ostream &osstream, const Matrix &matrixObj); // print out matrix by overloading the << operator
@@ -28,8 +28,7 @@ public:
 private:
     int nRows;
     int nCols;
-    double matrix[0][0];
-
+    std::vector<std::vector<double> > matrix;
 };
 
 // default contructor
@@ -38,7 +37,7 @@ inline Matrix::Matrix() : nRows(0), nCols(0)
 }
 
 // constructor with arguments
-inline Matrix::Matrix(int nRowsIn, int nColsIn) : nRows(nRowsIn), nCols(nColsIn) 
+inline Matrix::Matrix(std::vector<std::vector<double> > &matrixIn) : matrix(matrixIn), nRows(matrixIn.size()), nCols(matrixIn[0].size())
 {
 }
 
@@ -62,15 +61,15 @@ inline Matrix::~Matrix()
 }
 
 // transpose matrix
-inline Matrix& Matrix::transposeMatrix(Matrix &matrixObj)
+inline Matrix& Matrix::transpose(std::vector<std::vector<double> > &matrixIn)
 {
-    Matrix newMatrix(matrixObj);
+    Matrix newMatrix();
     // add stuff here with multi-threading
     for (int i = 0; i < nRows; ++i)
     {
         for (int j = 0; j < nCols; ++j)
         {
-            newMatrix[i][j] = matrixObj[j][i];
+            matrix[i][j] = matrixIn[j][i];
         }
     }
     return *this;
