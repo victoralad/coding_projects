@@ -6,6 +6,12 @@
 #include <thread>
 #include <iomanip>
 
+/*
+Author: Victor Aladele
+Description:
+ Implementing matrix class for matrix multiplication and transpose operations
+*/
+
 class Matrix
 {
 public:
@@ -22,7 +28,7 @@ public:
 private:
     int nRows;
     int nCols;
-    double matrix[1][1];
+    double matrix[0][0];
 
 };
 
@@ -58,7 +64,16 @@ inline Matrix::~Matrix()
 // transpose matrix
 inline Matrix& Matrix::transposeMatrix(Matrix &matrixObj)
 {
+    Matrix newMatrix(matrixObj);
     // add stuff here with multi-threading
+    for (int i = 0; i < nRows; ++i)
+    {
+        for (int j = 0; j < nCols; ++j)
+        {
+            newMatrix[i][j] = matrixObj[j][i];
+        }
+    }
+    return *this;
 }
 
 // assign matrix to another matrix
@@ -86,7 +101,8 @@ inline Matrix& Matrix::operator=(const Matrix &matrixObj)
 // multiply two matrices matrixObj1 and matrixObj2
 inline Matrix operator*(const Matrix &matrixObj1, const Matrix &matrixObj2) 
 {
-    Matrix newMatrix(matrixObj1.nRows, matrixObj2.nCols);
+    // Matrix newMatrix(matrixObj1.nRows, matrixObj2.nCols);
+     Matrix newMatrix;
     // add stuff here using multi-threading
     return newMatrix;
 }
