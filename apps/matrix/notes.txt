@@ -10,3 +10,9 @@ of matrices that can be multiplied at a time
 I have tested my code with the examples in main.cpp
 These examples include: 
     - multiplying multiple matrices in a single go
+
+Lastly, I must say, I had fun!
+It was really interesting reviewing some of the things I thought I knew well, but not as well as I thought :) 
+Dealing with some of the intricacies of pointers a little more indepth helped me appreciate the beauty of C++ language, 
+even though I have been working with C++ for more than a couple years now.
+This is not the best implementation there is and I believe there are many ways that this implementation could be improved

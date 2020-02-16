@@ -5,6 +5,7 @@
 #include <vector>
 #include <thread>
 #include <iomanip>
+#include <memory>
 
 /*
 Author: Victor Aladele
@@ -19,20 +20,22 @@ public:
     Matrix(const Matrix &matrixObj);    // copy constructor
     Matrix(std::vector<std::vector<double> > &matrixIn);    // constructor with arguments
     ~Matrix();                          // destructor
-    Matrix& transpose(std::vector<std::vector<double> > &matrixIn);             // transpose matrix
+    Matrix& transpose();             // transpose matrix
     Matrix& operator=(const Matrix &matrixObj); // assign matrix to another matrix
-    friend Matrix operator*(const Matrix &matrixObj1, const Matrix &matrixObj2);              // multiply two matrices together
+    friend Matrix operator*(const Matrix &matObj1, const Matrix &matObj2);              // multiply two matrices together
     friend std::ostream& operator<<(std::ostream &osstream, const Matrix &matrixObj); // print out matrix by overloading the << operator
     
 
 private:
     int nRows;
     int nCols;
+    // Matrix newMatrixObj;
+    std::unique_ptr<Matrix> newMatObjPtr;
     std::vector<std::vector<double> > matrix;
 };
 
 // default contructor
-inline Matrix::Matrix() : nRows(0), nCols(0) 
+inline Matrix::Matrix() : nRows(0), nCols(0), newMatObjPtr(new Matrix) 
 {
 }
 
@@ -46,8 +49,10 @@ inline Matrix::Matrix(const Matrix &matrixObj)
 {
     nRows = matrixObj.nRows;
     nCols = matrixObj.nCols;
+    matrix.resize(nRows);
     for (int i = 0; i < nRows; ++i)
     {
+        matrix[i].resize(nCols);
         for (int j = 0; j < nCols; ++j)
         {
             // Copy over everything
@@ -61,16 +66,24 @@ inline Matrix::~Matrix()
 }
 
 // transpose matrix
-inline Matrix& Matrix::transpose(std::vector<std::vector<double> > &matrixIn)
+inline Matrix& Matrix::transpose()
 {
-    Matrix newMatrix();
+    Matrix newMatObj(*this);
+    std::cout << *this << std::endl;
+    newMatObj.nRows = nRows;
+    newMatObj.nCols = nCols;
     // add stuff here with multi-threading
-    for (int i = 0; i < nRows; ++i)
+    
+    newMatObj.matrix.resize(nCols);
+    for (int j = 0; j < nCols; ++j)
     {
-        for (int j = 0; j < nCols; ++j)
+        newMatObj.matrix[j].resize(nRows);
+        for (int i = 0; i < nRows; ++i)
         {
-            matrix[i][j] = matrixIn[j][i];
+            newMatObj.matrix[i][j] = matrix[i][j];
+            // std::cout << newMatObj.matrix[i][j] << " ";
         }
+        std::cout << std::endl;
     }
     return *this;
 }
@@ -97,13 +110,25 @@ inline Matrix& Matrix::operator=(const Matrix &matrixObj)
     return *this;
 }
 
-// multiply two matrices matrixObj1 and matrixObj2
-inline Matrix operator*(const Matrix &matrixObj1, const Matrix &matrixObj2) 
+// multiply two matricesmatObj1 and matObj2
+inline Matrix operator*(const Matrix &matObj1, const Matrix &matObj2) 
 {
-    // Matrix newMatrix(matrixObj1.nRows, matrixObj2.nCols);
-     Matrix newMatrix;
+    // Matrix newMatrix(matrixObj1.nRows, matObj2.nCols);
+    Matrix newMatObj;
+    newMatObj.nRows = matObj1.nRows;
+    newMatObj.nCols = matObj2.nCols;
+
+    newMatObj.matrix.resize(newMatObj.nRows);
+    for (int i = 0; i < newMatObj.nRows; ++i)
+    {
+        newMatObj.matrix[i].resize(newMatObj.nCols);
+        for (int j = 0; j < newMatObj.nCols; ++j)
+        {
+            newMatObj.matrix[i][j] = matObj1.matrix[i][j] * matObj2.matrix[j][i];
+        }
+    }
     // add stuff here using multi-threading
-    return newMatrix;
+    return newMatObj;
 }
 
 // print out matrix by overloading the << operator
