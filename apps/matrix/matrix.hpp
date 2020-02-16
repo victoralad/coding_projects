@@ -20,22 +20,23 @@ public:
     Matrix(const Matrix &matrixObj);    // copy constructor
     Matrix(std::vector<std::vector<double> > &matrixIn);    // constructor with arguments
     ~Matrix();                          // destructor
-    Matrix& transpose();             // transpose matrix
+    std::vector<std::vector<double> >& transpose();             // transpose matrix
     Matrix& operator=(const Matrix &matrixObj); // assign matrix to another matrix
     friend Matrix operator*(const Matrix &matObj1, const Matrix &matObj2);              // multiply two matrices together
     friend std::ostream& operator<<(std::ostream &osstream, const Matrix &matrixObj); // print out matrix by overloading the << operator
-    
+    friend std::ostream& operator<<(std::ostream& oss, std::vector<std::vector<double> >& newMatrix);
 
 private:
     int nRows;
     int nCols;
     // Matrix newMatrixObj;
-    std::unique_ptr<Matrix> newMatObjPtr;
+    std::unique_ptr<Matrix> matObjPtr;
     std::vector<std::vector<double> > matrix;
+    std::vector<std::vector<double> > newMatrix;
 };
 
 // default contructor
-inline Matrix::Matrix() : nRows(0), nCols(0), newMatObjPtr(new Matrix) 
+inline Matrix::Matrix() : nRows(0), nCols(0), matObjPtr(new Matrix) 
 {
 }
 
@@ -66,26 +67,40 @@ inline Matrix::~Matrix()
 }
 
 // transpose matrix
-inline Matrix& Matrix::transpose()
-{
-    Matrix newMatObj(*this);
-    std::cout << *this << std::endl;
-    newMatObj.nRows = nRows;
-    newMatObj.nCols = nCols;
-    // add stuff here with multi-threading
+// inline Matrix& Matrix::transpose()
+// {
+//     Matrix newMatObj(*this);
+//     std::cout << *this << std::endl;
+//     newMatObj.nRows = nRows;
+//     newMatObj.nCols = nCols;
+//     // add stuff here with multi-threading
     
-    newMatObj.matrix.resize(nCols);
+//     newMatObj.matrix.resize(nCols);
+//     for (int j = 0; j < nCols; ++j)
+//     {
+//         newMatObj.matrix[j].resize(nRows);
+//         for (int i = 0; i < nRows; ++i)
+//         {
+//             newMatObj.matrix[i][j] = matrix[i][j];
+//             // std::cout << newMatObj.matrix[i][j] << " ";
+//         }
+//         std::cout << std::endl;
+//     }
+//     return *this;
+// }
+
+inline std::vector<std::vector<double> >& Matrix::transpose()
+{
+    newMatrix.resize(nCols);
     for (int j = 0; j < nCols; ++j)
     {
-        newMatObj.matrix[j].resize(nRows);
+        newMatrix[j].resize(nRows);
         for (int i = 0; i < nRows; ++i)
         {
-            newMatObj.matrix[i][j] = matrix[i][j];
-            // std::cout << newMatObj.matrix[i][j] << " ";
+            newMatrix[j][i] = matrix[i][j];
         }
-        std::cout << std::endl;
     }
-    return *this;
+    return newMatrix;
 }
 
 // assign matrix to another matrix
@@ -139,6 +154,20 @@ inline std::ostream& operator<<(std::ostream& oss, const Matrix &matrixObj)
         for (int j = 0; j < matrixObj.nCols; j++)
         {
             oss << std::scientific << std::setw(12) << std::setprecision(3) << matrixObj.matrix[i][j]; // add the matrix to oss in the right format
+        }
+        oss << std::endl;
+    }
+    return oss;
+}
+
+// print out matrix by overloading the << operator
+inline std::ostream& operator<<(std::ostream& oss, std::vector<std::vector<double> >& newMatrix)
+{
+    for (int i = 0; i < newMatrix.size(); i++)
+    {
+        for (int j = 0; j < newMatrix[i].size(); j++)
+        {
+            oss << std::scientific << std::setw(12) << std::setprecision(3) << newMatrix[i][j]; // add the matrix to oss in the right format
         }
         oss << std::endl;
     }
