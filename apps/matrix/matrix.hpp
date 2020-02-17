@@ -21,10 +21,9 @@ public:
     Matrix(std::vector<std::vector<double> > &matrixIn);    // constructor with arguments
     ~Matrix();                          // destructor
     std::vector<std::vector<double> >& transpose();             // transpose matrix
-    std::vector<std::vector<double> >& helperFunc(std::vector<std::vector<double> >& newMatrix);  
+    std::vector<std::vector<double> >& operator*(const Matrix &matObj2);              // multiply two matrices together
     Matrix& operator=(const Matrix &matrixObj); // assign matrix to another matrix
     Matrix& operator=(std::vector<std::vector<double> >& newMatrix);
-    friend std::vector<std::vector<double> >& operator*(const Matrix &matObj1, const Matrix &matObj2);              // multiply two matrices together
     friend std::ostream& operator<<(std::ostream &osstream, const Matrix &matrixObj); // print out matrix by overloading the << operator
     friend std::ostream& operator<<(std::ostream& oss, std::vector<std::vector<double> >& newMatrix);
 
@@ -82,17 +81,24 @@ inline std::vector<std::vector<double> >& Matrix::transpose()
 }
 
 // multiply two matricesmatObj1 and matObj2
-inline std::vector<std::vector<double> >& operator*(const Matrix &matObj1, const Matrix &matObj2) 
+inline std::vector<std::vector<double> >& Matrix::operator*(const Matrix &matObj2) 
 {
-    Matrix newMatObj;
-    newMatObj.nRows = matObj1.nRows;
-    newMatObj.nCols = matObj2.nCols;
 
-    return newMatObj.helperFunc(newMatObj.matrix);
-}
-
-inline std::vector<std::vector<double> >& Matrix::helperFunc(std::vector<std::vector<double> >& newMatrix) 
-{
+    if (this->nCols != matObj2.nRows)
+    {
+        std::cout << "Matrix dimensions do not allow for multiplication" << std::endl;
+        return newMatrix;
+    }
+    
+    newMatrix.resize(nRows);
+    for (int i = 0; i < nRows; ++i)
+    {
+        newMatrix[i].resize(matObj2.nCols);
+        for (int j = 0; j < matObj2.nCols; ++j)
+        {
+            newMatrix[i][j] = 1;
+        }
+    }
     return newMatrix;
 }
 
