@@ -83,10 +83,10 @@ inline std::vector<std::vector<double> >& Matrix::transpose()
 // multiply two matricesmatObj1 and matObj2
 inline std::vector<std::vector<double> >& Matrix::operator*(const Matrix &matObj2) 
 {
-
     if (this->nCols != matObj2.nRows)
     {
         std::cout << "Matrix dimensions do not allow for multiplication" << std::endl;
+        newMatrix.resize(1); // initialize newMatrix before returning it
         return newMatrix;
     }
     

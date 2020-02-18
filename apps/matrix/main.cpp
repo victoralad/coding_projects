@@ -12,10 +12,12 @@ int main(int argc, char **argv)
     // std::cout << matObj1 * matObj2 << std::endl;
 
     Matrix matObjA = matObj1 * matObj2;
-    std::cout << matObj1 << std::endl;
+    std::cout << matObjA << std::endl;
 
     // Matrix matObj = matObj1;
     // std::cout << matObj1 << std::endl;
 
+    // int numthreads = std::thread::hardware_concurrency() ;
+    // std::cout << numthreads << std::endl;
     return 0;
 }
