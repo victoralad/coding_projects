@@ -17,13 +17,11 @@ class Matrix
 {
 public:
     Matrix();                     
-    // Matrix(const Matrix &matrixObj); 
     Matrix(std::vector<std::vector<double> > &matrixIn);
-    ~Matrix();                          // destructor
-    Matrix transpose();             // transpose matrix
-    Matrix operator*(const Matrix &matObj2);              // multiply two matrices together  matObj and matObj
-    // Matrix& operator=(const Matrix &matrixObj); // assign matrix to another matrix
-    friend std::ostream& operator<<(std::ostream &osstream, const Matrix &matrixObj); // print out matrix by overloading the << operator
+    ~Matrix();
+    Matrix transpose();
+    Matrix operator*(const Matrix &matObj2); 
+    friend std::ostream& operator<<(std::ostream &osstream, const Matrix &matrixObj);
 
 private:
     int nRows;
@@ -41,25 +39,7 @@ inline Matrix::Matrix(std::vector<std::vector<double> > &matrixIn) : matrix(matr
 {
 }
 
-// // copy constructor
-// inline Matrix::Matrix(const Matrix &matrixObj)
-// {
-//     nRows = matrixObj.nRows;
-//     nCols = matrixObj.nCols;
-//     matrix.resize(nRows);
-//     int i, j;
-//     #pragma omp parallel for private(i, j)
-//     for (i = 0; i < nRows; ++i)
-//     {
-//         matrix[i].resize(nCols);
-//         for (j = 0; j < nCols; ++j)
-//         {
-//             // Copy over everything
-//             matrix[i][j] = matrixObj.matrix[i][j];
-//         }
-//     }
-// }
-
+// destructor
 inline Matrix::~Matrix()
 {
 }
@@ -81,10 +61,11 @@ inline Matrix Matrix::transpose()
             tempMatObj.matrix[j][i] = matrix[i][j];
         }
     }
+    
     return tempMatObj;
 }
 
-// multiply two matrices matObj1 and matObj2
+// multiply two matrices together
 inline Matrix Matrix::operator*(const Matrix &matObj2) 
 {
     Matrix tempMatObj;
@@ -114,34 +95,11 @@ inline Matrix Matrix::operator*(const Matrix &matObj2)
             }
         }
     }
+
     return tempMatObj;
 }
 
-// // assign matrix to another matrix
-// inline Matrix& Matrix::operator=(const Matrix &matrixObj)
-// {
-//     // Check to see if we are trying to assign ourself
-//     if (this == &matrixObj)
-//     {
-//        return *this;
-//     }
-//     nRows = matrixObj.nRows;
-//     nCols = matrixObj.nCols;
-//     int i, j;
-//     #pragma omp parallel for private(i, j)
-//     for (i = 0; i < nRows; ++i)
-//     {
-//         for (j = 0; j < nCols; ++j)
-//         {
-//             // Copy over everything
-//             matrix[i][j] = matrixObj.matrix[i][j];
-//         }
-//     }
-
-//     return *this;
-// }
-
-// print out matrix by overloading the << operator
+// print out matrix
 inline std::ostream& operator<<(std::ostream& oss, const Matrix &matrixObj)
 {
     for (int i = 0; i < matrixObj.nRows; ++i)
@@ -152,8 +110,8 @@ inline std::ostream& operator<<(std::ostream& oss, const Matrix &matrixObj)
         }
         oss << std::endl;
     }
+
     return oss;
 }
 
 #endif 
-

@@ -53,19 +53,16 @@ int main(int argc, char **argv)
     // matObj = matObj1.transpose();
     // std::cout << matObj << std::endl;
 
-    std::cout << matObj1 * matObj2 << std::endl;
-    std::cout << matObj1 * matObj2 << std::endl;
-    matObj = matObj1 * matObj2;
-    std::cout << matObj << std::endl;
+    // std::cout << matObj1 * matObj2 << std::endl;
+    // matObj = matObj1 * matObj2;
+    // std::cout << matObj << std::endl;
 
     // std::cout << matObj1 * matObj2 * matObj3 << std::endl;
     // matObj = matObj1 * matObj2 * matObj3;
     // std::cout << matObj << std::endl;
 
     // // check to see that all the operations above have not affected the values of the original matrices
-    // std::cout << matObj1 << std::endl;
-    // std::cout << matObj2 << std::endl;
-    // std::cout << matObj3 << std::endl;
+    // std::cout << matObj1 << "\n" << matObj2 << "\n" << matObj3 << std::endl;
 
     return 0;
 }
