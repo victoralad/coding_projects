@@ -1,17 +1,12 @@
-There are several other ways the matrix interface could have been done. Including:
-    - overloading the operator << to allow the user enter a matrix similarly to how the 'Eigen' library does it.
+There are several other ways the matrix interface could have been done, including:
+    - overloading the operator '<<' to allow the user to directly initialize the matrix similarly to the 'C++ Eigen' library.
     - having the user specify what type they want the matrix to be (i.e double, long, int, etc.)
-    - have my program read in the matrix from a .txt file provided by the user.
+    - have my program be able read in the matrix from a '.txt' file provided by the user.
 
 I chose to overload the operator '*', so as to allow my client to multiply as many
 matrices as they wanted, without restricting them to a fixed number 
 of matrices that can be multiplied at a time
 
-I also overloaded the '=' sign
-
-smart pointers could also be used
-
-Templates could also be used
 
 I have tested my code with the examples in main.cpp
 These examples include: 
@@ -19,6 +14,8 @@ These examples include:
 
 Lastly, I must say, I had fun!
 It was really interesting reviewing some of the things I thought I knew well, but not as well as I thought :) 
-Dealing with some of the intricacies of pointers a little more indepth helped me appreciate the beauty of C++ language, 
-even though I have been working with C++ for more than a couple years now.
+Dealing with some of the intricacies of pointers a little more indepth helped me appreciate the beauty of the C++ language even more. 
+
 This is not the best implementation there is and I believe there are many ways that this implementation could be improved
+    - Arrays with smart pointers could be used instead of vectors
+    - Templates could also be used

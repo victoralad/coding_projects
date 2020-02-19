@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <vector>
-#include <thread>
+#include <omp.h>
 #include <iomanip>
 #include <memory>
 
@@ -16,9 +16,9 @@ Description:
 class Matrix
 {
 public:
-    Matrix();                           // constructor
-    Matrix(const Matrix &matrixObj);    // copy constructor
-    Matrix(std::vector<std::vector<double> > &matrixIn);    // constructor with arguments
+    Matrix();                     
+    Matrix(const Matrix &matrixObj); 
+    Matrix(std::vector<std::vector<double> > &matrixIn);
     ~Matrix();                          // destructor
     std::vector<std::vector<double> >& transpose();             // transpose matrix
     std::vector<std::vector<double> >& operator*(const Matrix &matObj2);              // multiply two matrices together  matObj and matObj
@@ -30,8 +30,6 @@ public:
     friend std::ostream& operator<<(std::ostream& oss, std::vector<std::vector<double> >& newMatrix);
 
 private:
-    int nRows;
-    int nCols;
     std::vector<std::vector<double> > matrix;
     std::vector<std::vector<double> > newMatrix;
 };
@@ -42,20 +40,20 @@ inline Matrix::Matrix() : nRows(0), nCols(0)
 }
 
 // constructor with arguments
-inline Matrix::Matrix(std::vector<std::vector<double> > &matrixIn) : matrix(matrixIn), nRows(matrixIn.size()), nCols(matrixIn[0].size())
+inline Matrix::Matrix(std::vector<std::vector<double> > &matrixIn) : matrix(matrixIn)
 {
 }
 
 // copy constructor
 inline Matrix::Matrix(const Matrix &matrixObj)
 {
-    nRows = matrixObj.nRows;
-    nCols = matrixObj.nCols;
-    matrix.resize(nRows);
-    for (int i = 0; i < nRows; ++i)
+    matrix.resize(matrixObj.matrix.size());
+    int i, j;
+    #pragma omp parallel for private(i, j)
+    for (i = 0; i < nRows; ++i)
     {
         matrix[i].resize(nCols);
-        for (int j = 0; j < nCols; ++j)
+        for (j = 0; j < nCols; ++j)
         {
             // Copy over everything
             matrix[i][j] = matrixObj.matrix[i][j];
@@ -71,10 +69,12 @@ inline Matrix::~Matrix()
 inline std::vector<std::vector<double> >& Matrix::transpose()
 {
     newMatrix.resize(nCols);
-    for (int j = 0; j < nCols; ++j)
+    int i, j;
+    #pragma omp parallel for private(i, j)
+    for (j = 0; j < nCols; ++j)
     {
         newMatrix[j].resize(nRows);
-        for (int i = 0; i < nRows; ++i)
+        for (i = 0; i < nRows; ++i)
         {
             newMatrix[j][i] = matrix[i][j];
         }
@@ -93,12 +93,14 @@ inline std::vector<std::vector<double> >& Matrix::operator*(const Matrix &matObj
     }
     
     newMatrix.resize(nRows);
-    for (int i = 0; i < nRows; ++i)
+    int i, j, k;
+    #pragma omp parallel for private(i, j, k)
+    for (i = 0; i < nRows; ++i)
     {
         newMatrix[i].resize(matObj2.nCols);
-        for (int j = 0; j < matObj2.nCols; ++j)
+        for (j = 0; j < matObj2.nCols; ++j)
         {
-            for (int k = 0; k < matObj2.nRows; ++k)
+            for (k = 0; k < matObj2.nRows; ++k)
             {
                 //calculates the dot product of the rows of matrix1 with the corresponding
                 //columns of matrix2
@@ -106,6 +108,7 @@ inline std::vector<std::vector<double> >& Matrix::operator*(const Matrix &matObj
             }
         }
     }
+    std::cout << "hey" << std::endl;
 
     return newMatrix;
 }
@@ -128,9 +131,11 @@ inline Matrix& Matrix::operator=(const Matrix &matrixObj)
     }
     nRows = matrixObj.nRows;
     nCols = matrixObj.nCols;
-    for (int i = 0; i < nRows; i++)
+    int i, j;
+    #pragma omp parallel for private(i, j)
+    for (i = 0; i < nRows; i++)
     {
-        for (int j = 0; j < nCols; j++)
+        for (j = 0; j < nCols; j++)
         {
             // Copy over everything
             matrix[i][j] = matrixObj.matrix[i][j];
@@ -143,12 +148,16 @@ inline Matrix& Matrix::operator=(const Matrix &matrixObj)
 // assign matrix to another matrix
 inline Matrix& Matrix::operator=(std::vector<std::vector<double> >& newMatrix)
 {
-
+    std::cout << "yo" << std::endl;
     nRows = newMatrix.size();
     nCols = newMatrix[0].size();
-    for (int i = 0; i < nRows; i++)
+    matrix.resize(nRows);
+    int i, j;
+    // #pragma omp parallel for private(i, j)
+    for (i = 0; i < nRows; i++)
     {
-        for (int j = 0; j < nCols; j++)
+        matrix[i].resize(nCols);
+        for (j = 0; j < nCols; j++)
         {
             // Copy over everything
             matrix[i][j] = newMatrix[i][j];
@@ -161,9 +170,11 @@ inline Matrix& Matrix::operator=(std::vector<std::vector<double> >& newMatrix)
 // print out matrix by overloading the << operator
 inline std::ostream& operator<<(std::ostream& oss, const Matrix &matrixObj)
 {
-    for (int i = 0; i < matrixObj.nRows; i++)
+    int i, j;
+    // #pragma omp parallel for private(i, j)
+    for (i = 0; i < matrixObj.nRows; i++)
     {
-        for (int j = 0; j < matrixObj.nCols; j++)
+        for (j = 0; j < matrixObj.nCols; j++)
         {
             oss << std::scientific << std::setw(12) << std::setprecision(3) << matrixObj.matrix[i][j]; // add the matrix to oss in the right format
         }
@@ -175,9 +186,11 @@ inline std::ostream& operator<<(std::ostream& oss, const Matrix &matrixObj)
 // print out matrix by overloading the << operator
 inline std::ostream& operator<<(std::ostream& oss, std::vector<std::vector<double> >& newMatrix)
 {
-    for (int i = 0; i < newMatrix.size(); i++)
+    int i, j;
+    // #pragma omp parallel for private(i, j)
+    for (i = 0; i < newMatrix.size(); ++i)
     {
-        for (int j = 0; j < newMatrix[i].size(); j++)
+        for (j = 0; j < newMatrix[i].size(); ++j)
         {
             oss << std::scientific << std::setw(12) << std::setprecision(3) << newMatrix[i][j]; // add the matrix to oss in the right format
         }
@@ -188,15 +201,3 @@ inline std::ostream& operator<<(std::ostream& oss, std::vector<std::vector<doubl
 
 #endif 
 
-// should I put function members as private or public
-// should I use vectors or arrays
-// should my functions return a matrix (hence, what type should they be? )
-// how do I use threading (use mutex?)
-// overload operators
-
-// what is the best ML algorithm to detect a phone in an image
-// Does lthread make sense? or should it be lpthread?
-
-// look up if pthread has functions for for loops
-// use arrays instead of vectors
-// consider return pointers and not the actual object
