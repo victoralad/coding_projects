@@ -49,9 +49,9 @@ int main(int argc, char **argv)
     Matrix matObj3(mat3);
     Matrix matObj;
 
-    // std::cout << matObj1.transpose() << std::endl;
-    // matObj = matObj1.transpose();
-    // std::cout << matObj << std::endl;
+    std::cout << matObj1.transpose() << std::endl;
+    matObj = matObj1.transpose();
+    std::cout << matObj << std::endl;
 
     // std::cout << matObj1 * matObj2 << std::endl;
     // matObj = matObj1 * matObj2;
@@ -62,7 +62,7 @@ int main(int argc, char **argv)
     // std::cout << matObj << std::endl;
 
     // // check to see that all the operations above have not affected the values of the original matrices
-    // std::cout << matObj1 << "\n" << matObj2 << "\n" << matObj3 << std::endl;
+    std::cout << matObj1 << "\n" << matObj2 << "\n" << matObj3 << std::endl;
 
     return 0;
 }

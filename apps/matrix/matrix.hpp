@@ -19,8 +19,8 @@ public:
     Matrix();                     
     Matrix(std::vector<std::vector<double> > &matrixIn);
     ~Matrix();
-    Matrix transpose();
-    Matrix operator*(const Matrix &matObj2); 
+    Matrix transpose() const;
+    Matrix operator*(const Matrix &matObj2) const; 
     friend std::ostream& operator<<(std::ostream &osstream, const Matrix &matrixObj);
 
 private:
@@ -45,7 +45,7 @@ inline Matrix::~Matrix()
 }
 
 // transpose matrix
-inline Matrix Matrix::transpose()
+inline Matrix Matrix::transpose() const
 {
     Matrix tempMatObj;
     tempMatObj.nRows = nCols;
@@ -61,12 +61,12 @@ inline Matrix Matrix::transpose()
             tempMatObj.matrix[j][i] = matrix[i][j];
         }
     }
-    
+
     return tempMatObj;
 }
 
 // multiply two matrices together
-inline Matrix Matrix::operator*(const Matrix &matObj2) 
+inline Matrix Matrix::operator*(const Matrix &matObj2) const
 {
     Matrix tempMatObj;
 
