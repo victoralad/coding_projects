@@ -54,8 +54,9 @@ int main(int argc, char **argv)
     // std::cout << matObj << std::endl;
 
     std::cout << matObj1 * matObj2 << std::endl;
+    std::cout << matObj1 * matObj2 << std::endl;
     matObj = matObj1 * matObj2;
-    // std::cout << matObj << std::endl;
+    std::cout << matObj << std::endl;
 
     // std::cout << matObj1 * matObj2 * matObj3 << std::endl;
     // matObj = matObj1 * matObj2 * matObj3;
