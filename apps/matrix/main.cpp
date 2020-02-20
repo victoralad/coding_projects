@@ -4,28 +4,28 @@
 
 int main(int argc, char **argv)
 {
-    // int nRows, nCols;
-    // std::ifstream data_matrix;
-    // data_matrix.open("Test1000.txt");
-    // data_matrix >> nRows >> nCols;
-    // std::vector <std::vector<double> > matrix(nRows, std::vector<double>(nCols, 0));
-    // for (long long i = 0; i < nRows; i++)
-    // {
-    //     for (long long j = 0; j < nCols; j++)
-    //     {
-    //         data_matrix >> matrix[i][j];
-    //     }
-    // }
-    // data_matrix.close();
-    // Matrix matObjTest(matrix);
-    // auto start = std::chrono::system_clock::now();
+    int nRows, nCols;
+    std::ifstream data_matrix;
+    data_matrix.open("Test1000.txt");
+    data_matrix >> nRows >> nCols;
+    std::vector <std::vector<double> > matrix(nRows, std::vector<double>(nCols, 0));
+    for (long long i = 0; i < nRows; i++)
+    {
+        for (long long j = 0; j < nCols; j++)
+        {
+            data_matrix >> matrix[i][j];
+        }
+    }
+    data_matrix.close();
+    Matrix matObjTest(matrix);
+    auto start = std::chrono::system_clock::now();
 
-    // Matrix matObjTest2 = matObjTest;
-    // // std::cout << matObjTest2 << std::endl;
+    Matrix matObjTest2 = matObjTest.transpose();
+    // std::cout << matObjTest * matObjTest << std::endl;
 
-    // auto end = std::chrono::system_clock::now();
-    // auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-    // std::cout << elapsed.count() << '\n';
+    auto end = std::chrono::system_clock::now();
+    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    std::cout << elapsed.count() << '\n';
     
 
 
@@ -49,9 +49,12 @@ int main(int argc, char **argv)
     Matrix matObj3(mat3);
     Matrix matObj;
 
-    std::cout << matObj1.transpose() << std::endl;
-    matObj = matObj1.transpose();
-    std::cout << matObj << std::endl;
+    // std::cout << matObj1.transpose() << std::endl;
+    // matObj = matObj1.transpose();
+    // std::cout << matObj << std::endl;
+
+    // ------------ Test to check that multiplication with matrices of the wrong dimensions are not allowed -------------
+    // std::cout << matObj1 * matObj3 << std::endl;     
 
     // std::cout << matObj1 * matObj2 << std::endl;
     // matObj = matObj1 * matObj2;
@@ -62,7 +65,7 @@ int main(int argc, char **argv)
     // std::cout << matObj << std::endl;
 
     // // check to see that all the operations above have not affected the values of the original matrices
-    std::cout << matObj1 << "\n" << matObj2 << "\n" << matObj3 << std::endl;
+    // std::cout << matObj1 << "\n" << matObj2 << "\n" << matObj3 << std::endl;
 
     return 0;
 }

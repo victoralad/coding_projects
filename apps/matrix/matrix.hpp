@@ -52,7 +52,7 @@ inline Matrix Matrix::transpose() const
     tempMatObj.nCols = nRows;
     tempMatObj.matrix.resize(nCols);
     int i, j;
-    // #pragma omp parallel for private(i, j)
+    #pragma omp parallel for private(i, j)
     for (j = 0; j < nCols; ++j)
     {
         tempMatObj.matrix[j].resize(nRows);
@@ -73,7 +73,6 @@ inline Matrix Matrix::operator*(const Matrix &matObj2) const
     if (nCols != matObj2.nRows)
     {
         std::cout << "Matrix dimensions do not allow for multiplication" << std::endl;
-        tempMatObj.matrix.resize(1); // initialize tempMatObj.matrix before returning it
         return tempMatObj;
     }
     
