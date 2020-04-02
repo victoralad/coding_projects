@@ -5,15 +5,15 @@ import argparse
 
 # if __name__ == '__main__':
 # take 1 argument
-parser = argparse.ArgumentParser(description='Path to train images...')
-parser.add_argument('pathToTrainImages', help='path to train images')
+# parser = argparse.ArgumentParser(description='Path to train images...')
+# parser.add_argument('pathToTrainImages', help='path to train images')
 
-args = parser.parse_args()
-trainPath = args.pathToTrainImages
+# args = parser.parse_args()
+# trainPath = args.pathToTrainImages
 
 parser = argparse.ArgumentParser(description='Code for Feature Matching with FLANN tutorial.')
-parser.add_argument('--input1', help='Path to input image 1.', default='box.png')
-parser.add_argument('--input2', help='Path to input image 2.', default='box_in_scene.png')
+parser.add_argument('--input1', help='Path to input image 1.', default='/find_phone/1.jpg')
+parser.add_argument('--input2', help='Path to input image 2.', default='/find_phone/2.jpg')
 args = parser.parse_args()
 img_object = cv.imread(cv.samples.findFile(args.input1), cv.IMREAD_GRAYSCALE)
 img_scene = cv.imread(cv.samples.findFile(args.input2), cv.IMREAD_GRAYSCALE)
