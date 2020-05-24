@@ -13,7 +13,7 @@ int lcs(std::string &first_seq, std::string &second_seq)
    std::vector<std::vector<int> > table(first_seq.size() + 1, std::vector<int>(second_seq.size() + 1, 0));
    for (int i = 1; i < first_seq.size() + 1; i++)
    {
-       for (int j = 0; j < second_seq.size() + 1; j++)
+       for (int j = 1; j < second_seq.size() + 1; j++)
        {
            if (first_seq[i - 1] == second_seq[j - 1])
            {
